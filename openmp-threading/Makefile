@@ -7,10 +7,10 @@ ifeq ($(CC),)
 CC    = gcc
 endif
 OPTIMIZE    = yes
-OPENMP      = yes
+OPENMP      = no
 DEBUG       = no
 PROFILE     = no
-MPI         = no
+MPI         = yes
 AML         = no
 
 #===============================================================================
@@ -42,13 +42,13 @@ endif
 CFLAGS := -std=gnu99 -Wall
 
 # Linker Flags
-LDFLAGS = -lm
+LDFLAGS = -lm ../../../utils/kernel_stats.o
 
 # Regular gcc Compiler
 ifneq (,$(findstring gcc,$(CC)))
-  CFLAGS += -flto
+  CFLAGS += -flto 
   ifeq ($(OPENMP),yes)
-	CFLAGS += -fopenmp -DOPENMP
+	CFLAGS += -fopenmp -DOPENMP -DSINGLETHREADED
   endif
 endif
 

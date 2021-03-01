@@ -4,6 +4,9 @@
 #include<mpi.h>
 #endif
 
+extern void init_timestep_();
+extern void exit_timestep_();
+
 int main( int argc, char* argv[] )
 {
 	// =====================================================================
@@ -14,6 +17,8 @@ int main( int argc, char* argv[] )
 	double omp_start, omp_end;
 	int nprocs = 1;
 	unsigned long long verification;
+
+  init_timestep_();
 
 	#ifdef MPI
 	MPI_Init(&argc, &argv);
@@ -111,6 +116,7 @@ int main( int argc, char* argv[] )
 	// Print / Save Results and Exit
 	int is_invalid_result = print_results( in, mype, omp_end-omp_start, nprocs, verification );
 
+  exit_timestep_();
 	#ifdef MPI
 	MPI_Finalize();
 	#endif

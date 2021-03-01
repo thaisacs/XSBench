@@ -11,6 +11,8 @@
 // must be specifically selected using the "-k <optimized variant ID>" command
 // line argument.
 ////////////////////////////////////////////////////////////////////////////////////
+extern void begin_timestep_();
+extern void end_timestep_();
 
 unsigned long long run_event_based_simulation(Inputs in, SimulationData SD, int mype)
 {
@@ -44,6 +46,7 @@ unsigned long long run_event_based_simulation(Inputs in, SimulationData SD, int 
 	#pragma omp parallel for schedule(dynamic,100) reduction(+:verification)
 	for( int i = 0; i < in.lookups; i++ )
 	{
+    puts("entrou\n");
 		#ifdef AML
 		int * num_nucs = aml_replicaset_hwloc_local_replica(SD.num_nucs_replica);
 		double * concs = aml_replicaset_hwloc_local_replica(SD.concs_replica);
@@ -143,6 +146,7 @@ unsigned long long run_history_based_simulation(Inputs in, SimulationData SD, in
 	#pragma omp parallel for schedule(dynamic, 100) reduction(+:verification)
 	for( int p = 0; p < in.particles; p++ )
 	{
+    begin_timestep_();
 		#ifdef AML
 		int * num_nucs = aml_replicaset_hwloc_local_replica(SD.num_nucs_replica);
 		double * concs = aml_replicaset_hwloc_local_replica(SD.concs_replica);
@@ -228,9 +232,9 @@ unsigned long long run_history_based_simulation(Inputs in, SimulationData SD, in
 				seed = fast_forward_LCG(seed, n_forward);
 
 			p_energy = LCG_random_double(&seed);
-			mat      = pick_mat(&seed); 
+			mat      = pick_mat(&seed);
 		}
-
+    end_timestep_();
 	}
 	return verification;
 }
