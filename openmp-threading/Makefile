@@ -42,7 +42,7 @@ endif
 CFLAGS := -std=gnu99 -Wall
 
 # Linker Flags
-LDFLAGS = -lm ../../../utils/kernel_stats.o
+LDFLAGS = -lm ../../../utils/obj/*.o
 
 # Regular gcc Compiler
 ifneq (,$(findstring gcc,$(CC)))
