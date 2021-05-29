@@ -13,6 +13,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 extern void begin_timestep_();
 extern void end_timestep_();
+extern void after_timestep_();
 
 unsigned long long run_event_based_simulation(Inputs in, SimulationData SD, int mype)
 {
@@ -236,6 +237,7 @@ unsigned long long run_history_based_simulation(Inputs in, SimulationData SD, in
 		}
     end_timestep_();
 	}
+	after_timestep_();
 	return verification;
 }
 
